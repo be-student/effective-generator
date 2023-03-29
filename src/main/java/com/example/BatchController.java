@@ -13,7 +13,7 @@ public class BatchController {
     }
 
     @GetMapping("/batch")
-    public String batch() {
+    public String batch() throws InterruptedException {
         //midCategory Id=7
 //        1. Java에서의 인터페이스(Interface)란 무엇인가요?
 //                2. Java에서의 추상 클래스(Abstract Class)란 무엇인가요?
@@ -51,10 +51,13 @@ public class BatchController {
                 new Data(7L,"Java에서의 상속(Inheritance)에 대해 설명해주세요."),
                 new Data(7L,"Java에서의 다형성(Polymorphism)에 대해 설명해주세요."),
                 new Data(7L,"Java에서의 final 키워드에 대해 설명해주세요."),
-                new Data(7L,"Java에서의 static 키워드에 대해 설명해주세요."),
-
-        )
-        restTemplate.postForEntity("http://localhost:8080/api/v1/questions",new Data(1L,"hello"),Object.class );
+                new Data(7L,"Java에서의 static 키워드에 대해 설명해주세요.")
+        );
+        for (Data data : datas) {
+            restTemplate.postForEntity("http://localhost:8080/api/v1/questions",data,Object.class );
+            Thread.sleep(60000);
+        }
+//        restTemplate.postForEntity("http://localhost:8080/api/v1/questions",new Data(1L,"hello"),Object.class );
         return "batch";
     }
 }
